@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>LibrarySite</title>
+  <!-- Ссылка на скомпилированный CSS -->
+  <link rel="stylesheet" href="/styles/style.css">
+</head>
+<body>
+	<header>
+        {% block header %}
+		{% endblock %}
+    </header>
+	<main>
+		{% block content %}
+		{% endblock %}
+	</main>
+	<footer>
+        {% block footer %}
+		{% endblock %}
+    </footer>
+</body>
+</html>
