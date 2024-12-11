@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+
+{% block content %}
+  <h1>{{ title }}</h1>
+
+  <form method="POST">
+    <div class="form-group">
+      <label for="first_name">First Name:</label>
+      <input
+        id="first_name"
+        type="text"
+        class="form-control"
+        placeholder="First name (Christian)"
+        name="first_name"
+        required
+        value="{{ author.first_name | default('') }}"
+      >
+    </div>
+    <div class="form-group">
+      <label for="family_name">Family Name:</label>
+      <input
+        id="family_name"
+        type="text"
+        class="form-control"
+        placeholder="Family name (Surname)"
+        name="family_name"
+        required
+        value="{{ author.family_name | default('') }}"
+      >
+    </div>
+    <div class="form-group">
+		<label for="date_of_birth">Date of Birth:</label>
+		<input
+		  id="date_of_birth"
+		  type="date"
+		  class="form-control"
+		  name="date_of_birth"
+		  value="{{ author.date_of_birth }}"
+		>
+	  </div>
+	  <div class="form-group">
+		<label for="date_of_death">Date of Death:</label>
+		<input
+		  id="date_of_death"
+		  type="date"
+		  class="form-control"
+		  name="date_of_death"
+		  value="{{ author.date_of_death }}"
+		>
+	  </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+
+  {% if errors %}
+    <ul>
+      {% for error in errors %}
+        <li class="text-danger">{{ error.msg }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endblock %}

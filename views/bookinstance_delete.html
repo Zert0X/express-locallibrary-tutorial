@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+  <h1>ID: {{ bookinstance.id }}</h1>
+
+  <p><strong>Title:</strong> <a href="{{ bookinstance.book.url }}">{{ bookinstance.book.title }}</a></p>
+  <p><strong>Imprint:</strong> {{ bookinstance.imprint }}</p>
+
+  <p><strong>Status:</strong>
+    {% if bookinstance.status == 'Available' %}
+      <span class="text-success">{{ bookinstance.status }}</span>
+    {% elif bookinstance.status == 'Maintenance' %}
+      <span class="text-danger">{{ bookinstance.status }}</span>
+    {% else %}
+      <span class="text-warning">{{ bookinstance.status }}</span>
+    {% endif %}
+  </p>
+
+  {% if bookinstance.status != 'Available' %}
+    <p><strong>Due back:</strong> {{ bookinstance.due_back_formatted }}</p>
+  {% endif %}
+
+  <p>Do you really want to delete this Copy?</p>
+
+    <form method="POST">
+      <div class="form-group">
+        <input
+          id="bookid"
+          class="form-control"
+          type="hidden"
+          name="bookid"
+          value="{{ bookinstance.id }}"
+        />
+      </div>
+      <button class="btn btn-primary" type="submit">Delete</button>
+    </form>
+
+{% endblock %}

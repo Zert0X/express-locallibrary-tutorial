@@ -15,6 +15,14 @@ module.exports = (sequelize, DataTypes) => {
       values.url = this.url;
       return values;
     }
+
+    async setGenres(genreIds){
+      // Удаляем все текущие жанры книги
+      await this.removeGenres([], { transaction: null });
+      await this.save()
+      // Добавляем новые жанры для книги
+      await this.addGenres(genreIds, { transaction: null });
+    }
   }
   Book.init(
     {

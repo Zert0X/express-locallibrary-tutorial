@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block content %}
+  <h1>{{ title }}</h1>
+  <form action="/catalog/genre/create" method="POST">
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        class="form-control"
+        value="{{ genre.name | default('') }}"
+        required
+      >
+      {% if errors %}
+        <ul>
+          {% for error in errors %}
+            <li class="text-danger">{{ error.msg }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+{% endblock %}

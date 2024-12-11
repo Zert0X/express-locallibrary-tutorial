@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block content %}
+  <h1>{{ title }}: {{ author.first_name }} {{ author.family_name }}</h1>
+  <p>{{ author.lifetime }}</p>
+
+  {% if author_books.length > 0 %}
+    <p><strong>Delete the following books before attempting to delete this author:</strong></p>
+    <div style="margin-left: 20px; margin-top: 20px;">
+      <h4>Books</h4>
+      <dl>
+        {% for book in author_books %}
+          <dt>
+            <a href="/catalog/book/{{ book.id }}">{{ book.title }}</a>
+          </dt>
+          <dd>{{ book.summary }}</dd>
+        {% endfor %}
+      </dl>
+    </div>
+  {% else %}
+    <p>Do you really want to delete this Author?</p>
+
+    <form method="POST">
+      <div class="form-group">
+        <input
+          id="authorid"
+          class="form-control"
+          type="hidden"
+          name="authorid"
+          value="{{ author.id }}"
+        />
+      </div>
+      <button class="btn btn-primary" type="submit">Delete</button>
+    </form>
+  {% endif %}
+{% endblock %}

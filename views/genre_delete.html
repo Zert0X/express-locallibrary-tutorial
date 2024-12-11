@@ -19,6 +19,18 @@
       <p>This genre has no books.</p>
     {% endif %}
   </div>
-  <hr>
-  <a href="{{ genre.url }}/delete">Delete book copy</a>
+  <p>Do you really want to delete this genre?</p>
+
+  <form method="POST">
+    <div class="form-group">
+      <input
+        id="genreid"
+        class="form-control"
+        type="hidden"
+        name="genreid"
+        value="{{ genre.id }}"
+      />
+    </div>
+    <button class="btn btn-primary" type="submit">Delete</button>
+  </form>
 {% endblock %}

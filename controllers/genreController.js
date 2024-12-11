@@ -95,20 +95,82 @@ exports.genre_create_post = [
 
 // Display Genre delete form on GET.
 exports.genre_delete_get = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: Genre delete GET");
+  const genre = await Genre.findByPk(req.params.id);
+
+  if (genre === null) {
+    // Если экземпляр книги не найден
+    const err = new Error('Genre not found');
+    err.status = 404;
+    return next(err);
+  }
+
+  res.render("genre_delete.html", {
+    title: "Delete Genre",
+    genre: genre
+  });
 });
 
 // Handle Genre delete on POST.
 exports.genre_delete_post = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: Genre delete POST");
+  await Genre.destroy({ where: { id: req.body.genreid } });
+  res.redirect("/catalog/genres");
 });
 
 // Display Genre update form on GET.
 exports.genre_update_get = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: Genre update GET");
+  const genre = await Genre.findByPk(req.params.id);
+  if (!genre) {
+    // Если жанр не найден, перенаправляем на список жанров
+    return res.redirect('/catalog/genres');
+  }
+
+  // Преобразуем жанр в простой объект
+  const genreData = genre.get({ plain: true });
+
+  res.render('genre_form.html', {
+    title: 'Update Genre',
+    genre: genreData,
+  });
 });
 
 // Handle Genre update on POST.
-exports.genre_update_post = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: Genre update POST");
-});
+exports.genre_update_post = [
+  // Валидация и санитизация поля name
+  body('name', 'Genre name must contain at least 3 characters')
+    .trim()
+    .isLength({ min: 3 })
+    .escape(),
+
+  asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
+
+    const genreData = {
+      name: req.body.name,
+      id: req.params.id, // чтобы знать, какой жанр обновлять
+    };
+
+    if (!errors.isEmpty()) {
+      // Есть ошибки. Повторно отображаем форму.
+      return res.render('genre_form.html', {
+        title: 'Update Genre',
+        genre: genreData,
+        errors: errors.array(),
+      });
+    }
+
+    // Нет ошибок. Обновляем запись.
+    const genre = await Genre.findByPk(req.params.id);
+    if (!genre) {
+      const err = new Error('Genre not found');
+      err.status = 404;
+      return next(err);
+    }
+    
+    // Обновляем данные жанра
+    genre.name = genreData.name;
+    await genre.save();
+
+    // Перенаправляем на страницу деталей жанра
+    res.redirect(`/catalog/genre/${genre.id}`);
+  }),
+];
