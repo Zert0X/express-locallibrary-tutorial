@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block content %}
+  <h1>{{ title }}</h1>
+  {% if book_list.length > 0 %}
+    <ul>
+      {% for book in book_list %}
+        <li>
+          <a href="{{ book.url }}">{{ book.title }}</a>
+          ({{ book.author.first_name }} {{ book.author.family_name }})
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>There are no books.</p>
+  {% endif %}
+{% endblock %}

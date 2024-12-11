@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block content %}
+  <h1>{{ title }}</h1>
+
+  {% if bookinstance_list.length > 0 %}
+    <ul>
+      {% for val in bookinstance_list %}
+        <li>
+          <a href="{{ val.url }}">{{ val.book.title }}</a> : {{ val.imprint }} -&nbsp;
+          {% if val.status == 'Available' %}
+            <span class="text-success">{{ val.status }}</span>
+          {% elif val.status == 'Maintenance' %}
+            <span class="text-danger">{{ val.status }}</span>
+          {% else %}
+            <span class="text-warning">{{ val.status }}</span>
+          {% endif %}
+          {% if val.status != 'Available' %}
+            <span>(Due: {{ val.due_back_formatted }})</span>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>There are no book copies in this library.</p>
+  {% endif %}
+{% endblock %}

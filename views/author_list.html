@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block content %}
+  <h1>{{ title }}</h1>
+
+  {% if author_list.length > 0 %}
+    <ul>
+      {% for author in author_list %}
+        <li>
+          <a href="{{ author.url }}">{{ author.family_name }}, {{ author.first_name }}</a>
+          ({{ author.lifespan }})
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>There are no authors.</p>
+  {% endif %}
+{% endblock %}

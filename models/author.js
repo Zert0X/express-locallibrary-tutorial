@@ -20,9 +20,15 @@ module.exports = (sequelize, DataTypes) => {
       if (this.date_of_birth) {
         lifetimeString += DateTime.fromJSDate(this.date_of_birth).toLocaleString(DateTime.DATE_MED);
       }
+      else{
+        lifetimeString += "N/A"
+      }
       lifetimeString += ' - ';
       if (this.date_of_death) {
         lifetimeString += DateTime.fromJSDate(this.date_of_death).toLocaleString(DateTime.DATE_MED);
+      }
+      else{
+        lifetimeString += "N/A"
       }
       return lifetimeString;
     }

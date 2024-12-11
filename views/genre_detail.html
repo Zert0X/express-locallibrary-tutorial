@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+  <h1>Genre: {{ genre.name }}</h1>
+
+  <div style="margin-left:20px; margin-top:20px;">
+    <h2 style="font-size: 1.5rem;">Books</h2>
+    {% if genre_books.length > 0 %}
+      <dl>
+        {% for book in genre_books %}
+          <dt>
+            <a href="{{ book.url }}">{{ book.title }}</a>
+          </dt>
+          <dd>{{ book.summary }}</dd>
+        {% endfor %}
+      </dl>
+    {% else %}
+      <p>This genre has no books.</p>
+    {% endif %}
+  </div>
+
+{% endblock %}

@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
   class Book extends Model {
     // Виртуальное поле URL
     get url() {
-      return `/catalog/book/${this.id}`;
+      return `/catalog/books/${this.id}`;
     }
 
     toJSON() {
