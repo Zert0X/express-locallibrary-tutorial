@@ -4,6 +4,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var sassMiddleware = require('node-sass-middleware');
 var nunjucks = require('nunjucks');
+var Sequelize = require('sequelize');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');

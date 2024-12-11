@@ -1,0 +1,30 @@
+version: "3.9"
+
+networks:
+  backend:
+  frontend:
+  postgres:
+
+volumes:
+  backend-data:
+  backend-logs:
+  postgres:
+  share-storage:
+
+services:
+  # postgres (with pgvcetor)
+  postgres:
+    image: pgvector/pgvector:pg16
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: devpass
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "8090:8080"

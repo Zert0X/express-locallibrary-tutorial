@@ -1,0 +1,63 @@
+// models/book.js
+
+'use strict';
+const { Model } = require('sequelize');
+
+module.exports = (sequelize, DataTypes) => {
+  class Book extends Model {
+    // Виртуальное поле URL
+    get url() {
+      return `/catalog/book/${this.id}`;
+    }
+
+    toJSON() {
+      const values = { ...this.get() };
+      values.url = this.url;
+      return values;
+    }
+  }
+  Book.init(
+    {
+      title: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: { msg: 'Title is required' },
+        },
+      },
+      authorId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'authors',
+          key: 'id',
+        },
+        field: 'author_id',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+      },
+      summary: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+        validate: {
+          notEmpty: { msg: 'Summary is required' },
+        },
+      },
+      isbn: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: { msg: 'ISBN is required' },
+          // Дополнительная валидация ISBN при необходимости
+        },
+      },
+    },
+    {
+      sequelize,
+      modelName: 'Book',
+      tableName: 'books',
+      timestamps: false,
+    }
+  );
+  return Book;
+};
